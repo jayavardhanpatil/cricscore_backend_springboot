@@ -1,12 +1,8 @@
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-.idea/compiler.xml
-.idea/misc.xml
-
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -30,19 +26,6 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
-
-
-.mvn
-.idea
-*mvnw
-*mvnw.cmd
-*.iml
-/target/
-.classpath
-.project
-.settings/
