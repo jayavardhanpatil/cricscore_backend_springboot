@@ -8,14 +8,18 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cricscore" />
         <module name="player" />
-        <module name="eureka-server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-server" target="1.8" />
+      <module name="player (1)" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="eureka-server" options="-parameters" />
       <module name="player" options="-parameters" />
+      <module name="player (1)" options="-parameters" />
     </option>
   </component>
 </project>

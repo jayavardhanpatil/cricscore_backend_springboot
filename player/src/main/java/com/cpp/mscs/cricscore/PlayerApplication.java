@@ -1,11 +1,9 @@
-package com.cpp.mscs.cricscore.player;
+package com.cpp.mscs.cricscore;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 public class PlayerApplication {
 
 	public static void main(String[] args) {
