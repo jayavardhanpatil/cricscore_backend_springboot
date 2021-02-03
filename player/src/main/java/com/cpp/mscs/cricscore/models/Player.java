@@ -2,6 +2,7 @@ package com.cpp.mscs.cricscore.models;
 
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -24,18 +25,20 @@ public class Player {
     private String uuid;
 
     @Column(name = "name")
-    private String name;
+    private String first_name;
 
     @Column(name = "city")
     private String city;
 
     @Column(name = "phNumber")
-    private Long phNumber;
+    private Long phoneNumber;
 
-   // @Temporal(TemporalType.DATE)
     @Column(name = "dob")
-    private String dob;
+    private Date dateOfBirth;
 
     @Column(name = "profilePath")
-    private String profilePath;
+    private String photoUrl;
+
+    @Column(name = "email")
+    private String email;
 }

@@ -4,7 +4,7 @@ import com.cpp.mscs.cricscore.models.Player;
 import com.cpp.mscs.cricscore.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;git
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,8 +21,9 @@ public class PlayerController {
 
     @PostMapping("/players/add")
     public ResponseEntity<Player> addPlayer(@RequestBody Player player){
+        System.out.println(player.toString());
         playerService.addPlayer(player);
-        return ResponseEntity.ok(player);
+        return ResponseEntity.ok().body(player);
     }
 
     @GetMapping("/players/{playerId}")
