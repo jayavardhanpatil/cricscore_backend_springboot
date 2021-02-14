@@ -1,14 +1,13 @@
-package com.cpp.mscs.cricscore.models;
+package com.cpp.mscs.cricscore.match.models;
 
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,12 +23,12 @@ import java.util.Date;
 public class Player {
     @Id
     @Column(name = "uuid")
-    private String uuid;
+    private String uuid1;
 
     @Column(name = "name")
-    private String name;
+    private String first_name;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "Fk_cityId")
     private City city;
 
@@ -45,4 +44,6 @@ public class Player {
     @Column(name = "email")
     private String email;
 
+//    @ManyToMany(mappedBy = "playerList")
+//    private List<Team> teamList;
 }

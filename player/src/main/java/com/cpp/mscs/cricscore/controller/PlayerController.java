@@ -1,18 +1,20 @@
 package com.cpp.mscs.cricscore.controller;
 
-import com.cpp.mscs.cricscore.models.Player;
 import com.cpp.mscs.cricscore.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.awt.print.Pageable;
 
 /**
  * Created by IntelliJ IDEA.
  * User: jayavardhanpatil
- * Date: 2/2/21
- * Time:  11:51
+ * Date: 2/4/21
+ * Time:  18:17
  */
 
 @RestController
@@ -21,22 +23,20 @@ public class PlayerController {
     @Autowired
     PlayerService playerService;
 
-    @PostMapping("players/add")
-    public ResponseEntity<Player> addPlayer(@RequestBody Player player){
-        System.out.println(player.toString());
-        playerService.addPlayer(player);
-        return ResponseEntity.ok().body(player);
+    @GetMapping("players/all")
+    public ResponseEntity<?> getALlPlayers(){
+        return ResponseEntity.ok().body(playerService.getAllPlayer());
     }
 
-    @PutMapping("players/{playerId}")
-    public ResponseEntity<Player> updatePlayer(@RequestBody Player playerId){
-        playerService.addPlayer(playerId);
-        return ResponseEntity.ok(playerId);
+    @GetMapping("players/city/{city_id}")
+    public ResponseEntity<?> getALlPlayers(@PathVariable Long city_id){
+        return ResponseEntity.ok().body(playerService.getPlayersByCity(city_id));
+    }
+
+    @GetMapping("players/find")
+    public ResponseEntity<?> getALlPlayers(@RequestParam String name){
+        return ResponseEntity.ok().body(playerService.getPlayersByName(name));
     }
 
 
-    @GetMapping("players/{playerId}")
-    public Player getPlayer(@PathVariable String playerId){
-        return playerService.getPlayer(playerId);
-    }
 }
