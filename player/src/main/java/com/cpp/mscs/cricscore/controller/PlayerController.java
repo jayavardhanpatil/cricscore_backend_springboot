@@ -38,5 +38,4 @@ public class PlayerController {
         return ResponseEntity.ok().body(playerService.getPlayersByName(name));
     }
 
-
 }

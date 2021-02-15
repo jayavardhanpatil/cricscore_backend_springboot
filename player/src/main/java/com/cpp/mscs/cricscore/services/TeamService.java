@@ -1,6 +1,8 @@
 package com.cpp.mscs.cricscore.services;
 
+import com.cpp.mscs.cricscore.models.Player;
 import com.cpp.mscs.cricscore.models.Team;
+import com.cpp.mscs.cricscore.repositories.TeamNameAndCity;
 import com.cpp.mscs.cricscore.repositories.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,9 @@ public class TeamService {
 
     public List<Team> getAllTeams() {
         return teamRepo.findAll();
+    }
+
+    public List<TeamNameAndCity> getTeamByName(String teamName) {
+        return teamRepo.findByteamNameStartsWithIgnoreCase(teamName);
     }
 }

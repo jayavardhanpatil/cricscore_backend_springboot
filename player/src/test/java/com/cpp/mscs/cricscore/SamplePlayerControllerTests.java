@@ -1,4 +1,4 @@
-package com.cpp.mscs.cricscore.player;
+package com.cpp.mscs.cricscore;
 
 import com.cpp.mscs.cricscore.models.City;
 import com.cpp.mscs.cricscore.models.Player;
@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest
-class PlayerApplicationTests {
+class SamplePlayerControllerTests {
 
 	@Autowired
 	PlayerRepo playerRepo;

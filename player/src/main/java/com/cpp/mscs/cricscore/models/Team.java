@@ -24,15 +24,14 @@ public class Team {
     @Column(unique = true, nullable = false, name = "team_name")
     private String teamName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "city_id")
     private City teamCity;
-
 
     @ManyToMany
 //    @JoinTable(name = "team_players",
 //////        joinColumns = @JoinColumn(name = "team_id"),
 //////            inverseJoinColumns = @JoinColumn(name = "player_id")
-//////    )
+//////)
     private List<Player> playerList;
 }

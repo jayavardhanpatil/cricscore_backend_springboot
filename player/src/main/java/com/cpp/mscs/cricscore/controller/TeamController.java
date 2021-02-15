@@ -21,13 +21,24 @@ public class TeamController {
 
     @PostMapping("teams/add")
     public ResponseEntity<?> addTeam(@RequestBody Team team){
+        System.out.println(team.getTeamId());
         teamService.addTeam(team);
         return ResponseEntity.ok().body(team);
+    }
+
+    @PutMapping("teams/{teamId}")
+    public ResponseEntity<?> updateTeam(@PathVariable Long teamId){
+        return ResponseEntity.ok().body(teamService.getTeam(teamId));
     }
 
     @GetMapping("teams/{teamId}")
     public ResponseEntity<?> getTeam(@PathVariable Long teamId){
         return ResponseEntity.ok().body(teamService.getTeam(teamId));
+    }
+
+    @GetMapping("teams/find")
+    public ResponseEntity<?> findTeams(@RequestParam String teamName){
+        return ResponseEntity.ok().body(teamService.getTeamByName(teamName));
     }
 
     @GetMapping("teams/all")
