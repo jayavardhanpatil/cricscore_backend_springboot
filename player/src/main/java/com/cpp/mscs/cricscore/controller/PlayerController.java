@@ -34,7 +34,7 @@ public class PlayerController {
     }
 
     @GetMapping("players/find")
-    public ResponseEntity<?> getALlPlayers(@RequestParam String name){
+    public ResponseEntity<?> searchPlayer(@RequestParam String name){
         return ResponseEntity.ok().body(playerService.getPlayersByName(name));
     }
 

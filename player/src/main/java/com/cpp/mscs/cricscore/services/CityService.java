@@ -28,4 +28,8 @@ public class CityService {
         return cityRepo.findAllByOrderByCityNameAsc();
     }
 
+    public List<City> searchCity(String cityName){
+        return cityRepo.findByCityNameStartsWithIgnoreCase(cityName);
+    }
+
 }

@@ -16,4 +16,8 @@ public interface CityRepo extends JpaRepository<City, Long> {
 
 
     List<City> findAllByOrderByCityNameAsc();
+
+    List<City> findByCityNameStartsWith(String cityName);
+
+    List<City> findByCityNameStartsWithIgnoreCase(String cityName);
 }

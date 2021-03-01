@@ -4,10 +4,7 @@ import com.cpp.mscs.cricscore.models.City;
 import com.cpp.mscs.cricscore.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +36,12 @@ public class CityController {
     @GetMapping("cities")
     public ResponseEntity<?> getAllCityList(){
         List<City> cities = cityService.getALlCities();
+        return ResponseEntity.ok().body(cities);
+    }
+
+    @GetMapping("cities/find")
+    public ResponseEntity<?> searchCity(@RequestParam String cityName){
+        List<City> cities = cityService.searchCity(cityName);
         return ResponseEntity.ok().body(cities);
     }
 }

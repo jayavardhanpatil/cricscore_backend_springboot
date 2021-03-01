@@ -11,6 +11,7 @@ import com.cpp.mscs.cricscore.models.City;
 
 public interface TeamNameAndCity {
 
+    Long getTeamId();
     String getTeamName();
     City getTeamCity();
 }

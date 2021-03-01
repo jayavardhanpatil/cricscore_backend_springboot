@@ -38,6 +38,7 @@ public class TeamController {
 
     @GetMapping("teams/find")
     public ResponseEntity<?> findTeams(@RequestParam String teamName){
+        System.out.println("Getting data");
         return ResponseEntity.ok().body(teamService.getTeamByName(teamName));
     }
 

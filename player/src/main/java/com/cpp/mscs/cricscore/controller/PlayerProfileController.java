@@ -39,10 +39,10 @@ public class PlayerProfileController {
         return playerService.getPlayer(playerId);
     }
 
-    @GetMapping("player")
-    public ResponseEntity<?> getAllPlayer(){
-        return ResponseEntity.ok().body(playerService.getAllPlayer());
-    }
+//    @GetMapping("player")
+//    public ResponseEntity<?> getAllPlayer(){
+//        return ResponseEntity.ok().body(playerService.getAllPlayer());
+//    }
 
 
 }

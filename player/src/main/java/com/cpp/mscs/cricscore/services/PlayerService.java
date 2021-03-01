@@ -3,6 +3,7 @@ package com.cpp.mscs.cricscore.services;
 import com.cpp.mscs.cricscore.models.City;
 import com.cpp.mscs.cricscore.models.Player;
 import com.cpp.mscs.cricscore.repositories.PlayerRepo;
+import com.cpp.mscs.cricscore.repositories.PlayersListForGivenCity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,7 @@ public class PlayerService {
         return true;
     }
 
-    public List<Player> getPlayersByCity(Long cityId){
+    public List<PlayersListForGivenCity> getPlayersByCity(Long cityId){
         City city = new City();
         city.setCityId(cityId);
         return playerRepo.findByCity(city);

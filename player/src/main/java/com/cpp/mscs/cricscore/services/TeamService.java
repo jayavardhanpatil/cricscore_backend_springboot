@@ -38,6 +38,8 @@ public class TeamService {
     }
 
     public List<TeamNameAndCity> getTeamByName(String teamName) {
-        return teamRepo.findByteamNameStartsWithIgnoreCase(teamName);
+        List<TeamNameAndCity> respone = teamRepo.findByteamNameStartsWithIgnoreCase(teamName);
+        System.out.println(respone);
+        return respone;
     }
 }
