@@ -18,4 +18,5 @@ public interface TeamRepo extends JpaRepository<Team, Long> {
 
     //@Query(value = "SELECT t.team_name, t.team_city from Team", nativeQuery = true)
     List<TeamNameAndCity> findByteamNameStartsWithIgnoreCase(String teamName);
+
 }

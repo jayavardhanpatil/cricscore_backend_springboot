@@ -42,4 +42,9 @@ public class TeamService {
         System.out.println(respone);
         return respone;
     }
+
+    public boolean updateTeam(Team team) {
+         teamRepo.save(team);
+         return true;
+    }
 }

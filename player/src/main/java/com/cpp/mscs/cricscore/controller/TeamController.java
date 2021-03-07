@@ -26,9 +26,9 @@ public class TeamController {
         return ResponseEntity.ok().body(team);
     }
 
-    @PutMapping("teams/{teamId}")
-    public ResponseEntity<?> updateTeam(@PathVariable Long teamId){
-        return ResponseEntity.ok().body(teamService.getTeam(teamId));
+    @PutMapping("teams/update")
+    public ResponseEntity<?> updateTeam(@PathVariable Team team){
+        return ResponseEntity.ok().body(teamService.updateTeam(team));
     }
 
     @GetMapping("teams/{teamId}")
