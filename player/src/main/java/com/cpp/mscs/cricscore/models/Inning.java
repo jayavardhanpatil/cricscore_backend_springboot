@@ -3,6 +3,7 @@ package com.cpp.mscs.cricscore.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "inning")
-public class Inning {
+public class Inning implements Serializable {
 
     @EmbeddedId
     private ReferencePrimaryKeyInningTable primaryKey;

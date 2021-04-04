@@ -28,4 +28,6 @@ public class ReferencePrimaryKey implements Serializable {
     @Column(name = "playeruuid")
     private String playeruuid;
 
+    public ReferencePrimaryKey(long matchId, String toUpperCase, String k) {
+    }
 }

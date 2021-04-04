@@ -1,7 +1,7 @@
 package com.cpp.mscs.cricscore.repositories;
 
-import com.cpp.mscs.cricscore.models.City;
-import com.cpp.mscs.cricscore.models.Match;
+import com.cpp.mscs.cricscore.models.Inning;
+import com.cpp.mscs.cricscore.models.PlayerInningStat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface MatchRepo extends JpaRepository<Match, Long> {
-
+public interface PlayerInningsRepo extends JpaRepository<PlayerInningStat, Long> {
 
 
 }

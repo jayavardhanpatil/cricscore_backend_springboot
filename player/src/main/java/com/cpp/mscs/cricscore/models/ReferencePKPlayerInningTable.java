@@ -1,6 +1,5 @@
 package com.cpp.mscs.cricscore.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,12 +19,15 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ReferencePrimaryKeyInningTable implements Serializable {
+public class ReferencePKPlayerInningTable implements Serializable {
 
     @Column(name = "matchId")
     private Long matchId;
 
     @Column(name = "inningtype")
     private String inningtype;
+
+    @Column(name = "uuid")
+    private String uuid;
 
 }

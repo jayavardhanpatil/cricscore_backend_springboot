@@ -27,26 +27,16 @@ public class MatchPlayer {
 
     @Column(name = "team_id")
     private Integer teamId;
-
     private Integer run;
-
     private Integer wicket;
-
     private Integer extra;
-
     private Double overs;
-
     private Integer ballsFaced;
-
     private Integer runsGiven;
-
     private Integer numberOfFours;
-
     private Integer numberOfsixes;
-
     private Integer playedPosition;
-
-    private Boolean isOut;
+    private Boolean out;
 
     public MatchPlayer(){}
 
