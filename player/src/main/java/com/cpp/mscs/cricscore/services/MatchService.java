@@ -1,18 +1,22 @@
 package com.cpp.mscs.cricscore.services;
 
-import com.cpp.mscs.cricscore.models.Match;
-import com.cpp.mscs.cricscore.models.MatchPlayer;
-import com.cpp.mscs.cricscore.models.Player;
-import com.cpp.mscs.cricscore.models.ReferencePrimaryKey;
+import com.cpp.mscs.cricscore.JedisPoolHelper;
+import com.cpp.mscs.cricscore.models.*;
 import com.cpp.mscs.cricscore.repositories.MatchPlayedRepo;
 import com.cpp.mscs.cricscore.repositories.MatchRepo;
+import com.cpp.mscs.cricscore.repositories.TeamName;
+import com.cpp.mscs.cricscore.repositories.TeamRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
-
+import redis.clients.jedis.Jedis;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
+
+import static com.cpp.mscs.cricscore.controller.MatchController.INNINGS_TYPE;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,9 +34,28 @@ public class MatchService {
     @Autowired
     MatchPlayedRepo matchPlayedRepo;
 
+    @Autowired
+    TeamRepo teamRepo;
+
+    @Autowired
+    CurrentPlayingPlayersService currentPlayingPlayersService;
+
+    ObjectMapper mapper = new ObjectMapper();
+
     @Transactional
     public void addMatch(Match match) {
         long matchId = matchRepo.save(match).getMatchId();
+        MatchSummary matchSummary = new MatchSummary();
+        matchSummary.setFirstInningsOver(false);
+        matchSummary.setLive(true);
+        TeamName teamAName = teamRepo.findByTeamId((long) match.getTeamAId());
+        TeamName teamBName = teamRepo.findByTeamId((long) match.getTeamBId());
+        matchSummary.setMatchTitile(teamAName.getTeamName()+"-"+teamBName.getTeamName());
+        try {
+            addMatchSummaryData(matchSummary, matchId, (long) match.getMatchVenuecityId());
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
         addSelectedPlayers(match, matchId);
     }
 
@@ -56,7 +79,63 @@ public class MatchService {
         matchPlayedRepo.save(player);
     }
 
+    @Transactional
+    public void updateMatch(long mathcId, Match match) throws IOException, JSONException {
+        matchRepo.updateResult(match.getResult(), match.getWinningTeamId(), match.getTotalScore(), mathcId);
+        String matchSummaryData = getLiveMatchesIdsinTheCity(match.getMatchVenuecityId()).get(String.valueOf(mathcId));
+        MatchSummary matchSummary = getMatchSummary(matchSummaryData);
+
+        if(match.getResult() != null && !match.getResult().isEmpty()){
+            matchSummary.setResult(match.getResult());
+            matchSummary.setLive(false);
+            matchSummary.setFirstInningsOver(true);
+        }
+
+        addMatchSummaryData(matchSummary, mathcId, (long) match.getMatchVenuecityId());
+    }
+
     public Optional<Match> getMatch(long matchId) {
         return matchRepo.findById(matchId);
+    }
+
+    public List<MatchSummary> getMatchesinTheCity(long cityId){
+        Map<String, String> matchIds = getLiveMatchesIdsinTheCity(cityId);
+        List<MatchSummary> matchSummaries = new ArrayList<>();
+
+        matchIds.forEach((k, v) -> {
+            MatchSummary matchSummary = null;
+            try {
+                matchSummary = mapper.readValue(v, MatchSummary.class);
+                CurrentPlaying firstInning = currentPlayingPlayersService.getCurrentPlayers(k+"-"+INNINGS_TYPE[0]);
+                if(firstInning != null){
+                    matchSummary.setFirstInningsScore(firstInning);
+                }
+                CurrentPlaying secondInning = currentPlayingPlayersService.getCurrentPlayers(k+"-"+INNINGS_TYPE[1]);
+                if(secondInning != null) {
+                    matchSummary.setSecondInningsScore(secondInning);
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            matchSummaries.add(matchSummary);
+        });
+        return matchSummaries;
+    }
+
+    public Map<String, String> getLiveMatchesIdsinTheCity(long cityId){
+        Jedis jedis = JedisPoolHelper.getResource();
+        return jedis.hgetAll("city-"+cityId);
+    }
+
+    public MatchSummary getMatchSummary(String matchSummary) throws JsonProcessingException {
+        return mapper.readValue(matchSummary, MatchSummary.class);
+    }
+
+
+    public void addMatchSummaryData(MatchSummary matchSummary, Long matchId, Long cityId) throws JSONException, IOException {
+        HashMap<String, String> matchSummaryHashMap = new HashMap<>();
+        matchSummaryHashMap.put(matchId.toString(), mapper.writeValueAsString(matchSummary));
+        Jedis jedis = JedisPoolHelper.getResource();
+        jedis.hmset("city-"+cityId, matchSummaryHashMap);
     }
 }

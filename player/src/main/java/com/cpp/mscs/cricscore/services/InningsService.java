@@ -1,20 +1,17 @@
 package com.cpp.mscs.cricscore.services;
 
-import com.cpp.mscs.cricscore.models.Inning;
-import com.cpp.mscs.cricscore.models.Match;
-import com.cpp.mscs.cricscore.models.MatchPlayer;
-import com.cpp.mscs.cricscore.models.PlayerInningStat;
-import com.cpp.mscs.cricscore.repositories.InningsRepo;
-import com.cpp.mscs.cricscore.repositories.MatchPlayedRepo;
-import com.cpp.mscs.cricscore.repositories.MatchRepo;
-import com.cpp.mscs.cricscore.repositories.PlayerInningsRepo;
+import com.cpp.mscs.cricscore.models.*;
+import com.cpp.mscs.cricscore.repositories.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.io.IOException;
+
+import static com.cpp.mscs.cricscore.controller.MatchController.INNINGS_TYPE;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,18 +26,43 @@ public class InningsService {
     final
     InningsRepo inningsRepo;
 
+    @Autowired
+    TeamRepo teamRepo;
+
+    @Autowired
     MatchPlayedRepo matchPlayedRepo;
+
+    @Autowired
+    MatchService matchService;
+
+    @Autowired
+    MatchRepo matchRepo;
 
     public InningsService(InningsRepo inningsRepo) {
         this.inningsRepo = inningsRepo;
     }
 
-    public void addInnings(Inning innings) {
+    public void addInnings(Inning innings) throws IOException, JSONException {
         inningsRepo.save(innings);
+
+        long cityId = matchRepo.getCity(innings.getPrimaryKey().getMatchId());
+
+        String matchSummaryData = matchService.getLiveMatchesIdsinTheCity(
+                cityId).get(String.valueOf(innings.getPrimaryKey().getMatchId()));
+        MatchSummary matchSummary = matchService.getMatchSummary(matchSummaryData);
+
+        if(innings.getPrimaryKey().getInningtype().equalsIgnoreCase(INNINGS_TYPE[1])){
+            matchSummary.setFirstInningsOver(true);
+        }
+
+        matchService.addMatchSummaryData(matchSummary, innings.getPrimaryKey().getMatchId()
+                , (long) cityId);
+
     }
 
     @Transactional
     public void updatePlayersBattingInning(MatchPlayer matchPlayer, long matchId, String playerUuId) {
+        matchPlayer.setPrimaryKey(new ReferencePrimaryKey(matchId, playerUuId));
         matchPlayedRepo.updateBattingScore(matchPlayer.getBallsFaced(),
                 matchPlayer.getNumberOfFours(), matchPlayer.getNumberOfsixes(), matchPlayer.getOut(),matchPlayer.getPlayedPosition()
         ,matchPlayer.getRun(), matchId, playerUuId);
@@ -48,6 +70,7 @@ public class InningsService {
 
     @Transactional
     public void updatePlayersBowlingInning(MatchPlayer matchPlayer, long matchId, String playerUuId) {
+        matchPlayer.setPrimaryKey(new ReferencePrimaryKey(matchId, playerUuId));
         matchPlayedRepo.updateBowlingcore(matchPlayer.getExtra(),
                 matchPlayer.getWicket(), matchPlayer.getOvers(), matchPlayer.getRunsGiven(), matchId, playerUuId);
     }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 public interface MatchPlayedRepo extends JpaRepository<MatchPlayer, Long> {
 
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update MatchPlayer p set p.ballsFaced =:ballsFaced, p.numberOfFours =:numberOfFours, " +
             "p.numberOfsixes =:numberOfSixes, p.out =:out, p.playedPosition =:playedPosiiton, " +
             "p.run =:runs where p.primaryKey.matchId =:matchId and p.primaryKey.playeruuid =:uuId")
@@ -32,7 +32,7 @@ public interface MatchPlayedRepo extends JpaRepository<MatchPlayer, Long> {
                                    @Param(value = "uuId") String uuId
                                    );
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update MatchPlayer p set p.extra =:extra, p.wicket =:wickets, " +
             "p.overs =:overs, p.runsGiven =:runsGiven where p.primaryKey.matchId =:matchId and p.primaryKey.playeruuid =:uuId")
     public void updateBowlingcore(@Param(value = "extra") int extra,
@@ -42,5 +42,4 @@ public interface MatchPlayedRepo extends JpaRepository<MatchPlayer, Long> {
                                    @Param(value = "matchId") long matchId,
                                    @Param(value = "uuId") String uuId
     );
-
 }

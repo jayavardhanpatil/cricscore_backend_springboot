@@ -1,15 +1,18 @@
 package com.cpp.mscs.cricscore.controller;
 
 import com.cpp.mscs.cricscore.models.*;
-import com.cpp.mscs.cricscore.repositories.MatchRepo;
 import com.cpp.mscs.cricscore.services.CurrentPlayingPlayersService;
 import com.cpp.mscs.cricscore.services.InningsService;
 import com.cpp.mscs.cricscore.services.MatchService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MatchController {
+
+
+    public static String[] INNINGS_TYPE = {"FIRST", "SECOND"};
 
     @Autowired
     MatchService matchService;
@@ -41,10 +47,16 @@ public class MatchController {
         return ResponseEntity.ok().body(matchService.getMatch(matchId));
     }
 
+    @PutMapping("match/{matchId}")
+    public ResponseEntity<?> updateMatchResult(@PathVariable Long matchId, @RequestBody Match match) throws IOException, JSONException {
+        matchService.updateMatch(matchId, match);
+        return ResponseEntity.ok().body(match);
+    }
+
     @PostMapping("match/{matchId}/innings/{inningsType}/add")
     public ResponseEntity<?> addInnings(@PathVariable Long matchId,
                                      @PathVariable String inningsType,
-                                     @RequestBody Inning innings){
+                                     @RequestBody Inning innings) throws IOException, JSONException {
         innings.setPrimaryKey(new ReferencePrimaryKeyInningTable(matchId, inningsType));
         inningsService.addInnings(innings);
         return ResponseEntity.ok().body(innings);
@@ -63,13 +75,21 @@ public class MatchController {
         }
     }
 
+    @PostMapping("match/{matchId}/{cityId}/match-summary")
+    public ResponseEntity<?> addCurrentPlayers(@PathVariable Long matchId,
+                                               @PathVariable Long cityId,
+                                               @RequestBody MatchSummary matchSummary) throws IOException, JSONException {
+        matchService.addMatchSummaryData(matchSummary, matchId, cityId);
+        return ResponseEntity.ok().body(matchSummary);
+    }
+
     @GetMapping("match/{matchId}/innings/{inningType}/current-players")
     public ResponseEntity<?> addCurrentPlayers(@PathVariable Long matchId,
                                                @PathVariable String inningType){
         try {
             String key = matchId + "-" +inningType.toUpperCase();
             return ResponseEntity.ok().body(currentPlayingPlayersService.getCurrentPlayers(key));
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body(e);
         }
@@ -97,5 +117,11 @@ public class MatchController {
         }catch (Exception e){
             return ResponseEntity.status(500).body(e);
         }
+    }
+
+    @GetMapping("/matches/cities/{citiId}/")
+    public ResponseEntity<?> getMatchesInyourCity(@PathVariable Long citiId){
+        List<MatchSummary> matchSummary = matchService.getMatchesinTheCity(citiId);
+        return ResponseEntity.ok(matchSummary);
     }
 }

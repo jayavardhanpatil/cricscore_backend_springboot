@@ -2,9 +2,6 @@ package com.cpp.mscs.cricscore.services;
 
 import com.cpp.mscs.cricscore.JedisPoolHelper;
 import com.cpp.mscs.cricscore.models.CurrentPlaying;
-import com.cpp.mscs.cricscore.models.PlayerInningStat;
-import com.cpp.mscs.cricscore.models.ReferencePKPlayerInningTable;
-import com.cpp.mscs.cricscore.models.ReferencePrimaryKey;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +48,17 @@ public class CurrentPlayingPlayersService {
     }
 
     @Transactional
-    public CurrentPlaying getCurrentPlayers(String key) throws JsonProcessingException {
+    public CurrentPlaying getCurrentPlayers(String key) {
         Jedis jedis = JedisPoolHelper.getResource();
-        return mapper.readValue(jedis.get(key), CurrentPlaying.class);
+        CurrentPlaying currentPlaying = null;
+        try {
+            String redisKey = jedis.get(key);
+            if(redisKey != null) {
+                currentPlaying = mapper.readValue(redisKey, CurrentPlaying.class);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return currentPlaying;
     }
 }
