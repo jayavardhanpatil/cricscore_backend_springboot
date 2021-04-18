@@ -1,9 +1,11 @@
-package com.cpp.mscs.cricscore.models;
+package com.cpp.mscs.cricscore.match.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**

@@ -1,4 +1,4 @@
-package com.cpp.mscs.cricscore.repositories;
+package com.cpp.mscs.cricscore.match.repositories;
 
 import com.cpp.mscs.cricscore.models.MatchPlayer;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NamedNativeQuery;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,17 +32,17 @@ public interface MatchPlayedRepo extends JpaRepository<MatchPlayer, Long> {
                                    @Param(value = "runs") int runs,
                                    @Param(value = "matchId") long matchId,
                                    @Param(value = "uuId") String uuId
-                                   );
+    );
 
     @Modifying(clearAutomatically = true)
     @Query("update MatchPlayer p set p.extra =:extra, p.wicket =:wickets, " +
             "p.overs =:overs, p.runsGiven =:runsGiven where p.primaryKey.matchId =:matchId and p.primaryKey.playeruuid =:uuId")
     public void updateBowlingcore(@Param(value = "extra") int extra,
-                                   @Param(value = "wickets") int wickets,
-                                   @Param(value = "overs") double overs,
-                                   @Param(value = "runsGiven") int runsGiven,
-                                   @Param(value = "matchId") long matchId,
-                                   @Param(value = "uuId") String uuId
+                                  @Param(value = "wickets") int wickets,
+                                  @Param(value = "overs") double overs,
+                                  @Param(value = "runsGiven") int runsGiven,
+                                  @Param(value = "matchId") long matchId,
+                                  @Param(value = "uuId") String uuId
     );
 
 

@@ -21,7 +21,7 @@ public class TeamController {
 
     @PostMapping("teams/add")
     public ResponseEntity<?> addTeam(@RequestBody Team team){
-        System.out.println(team.getTeamId());
+        //System.out.println(team.getTeamId());
         teamService.addTeam(team);
         return ResponseEntity.ok().body(team);
     }

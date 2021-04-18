@@ -1,7 +1,7 @@
 package com.cpp.mscs.cricscore.match.controllers;
 
-import com.cpp.mscs.cricscore.match.models.Team;
-import com.cpp.mscs.cricscore.match.services.TeamService;
+import com.cpp.mscs.cricscore.models.Team;
+import com.cpp.mscs.cricscore.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +21,29 @@ public class TeamController {
 
     @PostMapping("teams/add")
     public ResponseEntity<?> addTeam(@RequestBody Team team){
-        Long teamId = teamService.addTeam(team);
-        return ResponseEntity.ok().body("Team Id : "+ teamId);
+        //System.out.println(team.getTeamId());
+        teamService.addTeam(team);
+        return ResponseEntity.ok().body(team);
+    }
+
+    @PutMapping("teams/update")
+    public ResponseEntity<?> updateTeam(@PathVariable Team team){
+        return ResponseEntity.ok().body(teamService.updateTeam(team));
     }
 
     @GetMapping("teams/{teamId}")
     public ResponseEntity<?> getTeam(@PathVariable Long teamId){
         return ResponseEntity.ok().body(teamService.getTeam(teamId));
+    }
+
+    @GetMapping("teams/find")
+    public ResponseEntity<?> findTeams(@RequestParam String teamName){
+        System.out.println("Getting data");
+        return ResponseEntity.ok().body(teamService.getTeamByName(teamName));
+    }
+
+    @GetMapping("teams/all")
+    public ResponseEntity<?> getTeam(){
+        return ResponseEntity.ok().body(teamService.getAllTeams());
     }
 }

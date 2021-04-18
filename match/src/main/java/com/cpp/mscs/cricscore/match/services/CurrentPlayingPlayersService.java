@@ -1,4 +1,4 @@
-package com.cpp.mscs.cricscore.services;
+package com.cpp.mscs.cricscore.match.services;
 
 import com.cpp.mscs.cricscore.JedisPoolHelper;
 import com.cpp.mscs.cricscore.models.CurrentPlaying;

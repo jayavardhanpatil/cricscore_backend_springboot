@@ -1,10 +1,9 @@
-package com.cpp.mscs.cricscore.models;
+package com.cpp.mscs.cricscore.match.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import javax.persistence.Id;
 import java.util.Map;
 
 /**

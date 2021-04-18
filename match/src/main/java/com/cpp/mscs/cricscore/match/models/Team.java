@@ -1,10 +1,10 @@
 package com.cpp.mscs.cricscore.match.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,22 +16,24 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "team")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Team {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long teamId;
 
+    @Column(unique = true, nullable = false, name = "team_name")
     private String teamName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "city_id")
     private City teamCity;
 
     @ManyToMany
-    @JoinTable(name = "team_players",
-        joinColumns = @JoinColumn(name = "team_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id")
-    )
+//    @JoinTable(name = "team_players",
+//////        joinColumns = @JoinColumn(name = "team_id"),
+//////            inverseJoinColumns = @JoinColumn(name = "player_id")
+//////)
     private List<Player> playerList;
 }

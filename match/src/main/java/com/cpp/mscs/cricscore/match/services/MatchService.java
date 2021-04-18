@@ -1,24 +1,20 @@
-package com.cpp.mscs.cricscore.services;
+package com.cpp.mscs.cricscore.match.services;
 
-import com.cpp.mscs.cricscore.JedisPoolHelper;
-import com.cpp.mscs.cricscore.models.*;
-import com.cpp.mscs.cricscore.repositories.MatchPlayedRepo;
-import com.cpp.mscs.cricscore.repositories.MatchRepo;
-import com.cpp.mscs.cricscore.repositories.TeamName;
-import com.cpp.mscs.cricscore.repositories.TeamRepo;
+
+import com.cpp.mscs.cricscore.match.models.Match;
+import com.cpp.mscs.cricscore.match.models.MatchSummary;
+import com.cpp.mscs.cricscore.match.repositories.MatchPlayedRepo;
+import com.cpp.mscs.cricscore.match.repositories.MatchRepo;
+import com.cpp.mscs.cricscore.match.repositories.TeamRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
+
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.cpp.mscs.cricscore.controller.MatchController.INNINGS_TYPE;
-import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,9 +36,6 @@ public class MatchService {
     TeamRepo teamRepo;
 
     @Autowired
-    PlayerService playerService;
-
-    @Autowired
     CurrentPlayingPlayersService currentPlayingPlayersService;
 
     ObjectMapper mapper = new ObjectMapper();
@@ -53,8 +46,8 @@ public class MatchService {
         MatchSummary matchSummary = new MatchSummary();
         matchSummary.setFirstInningsOver(false);
         matchSummary.setLive(true);
-        TeamName teamAName = teamRepo.findByTeamId((long) match.getTeamAId());
-        TeamName teamBName = teamRepo.findByTeamId((long) match.getTeamBId());
+        //TeamName teamAName = teamRepo.findByTeamId((long) match.getTeamAId());
+        //TeamName teamBName = teamRepo.findByTeamId((long) match.getTeamBId());
         matchSummary.setMatchTitile(teamAName.getTeamName()+"-"+teamBName.getTeamName());
         try {
             addMatchSummaryData(matchSummary, matchId, (long) match.getMatchVenuecityId());

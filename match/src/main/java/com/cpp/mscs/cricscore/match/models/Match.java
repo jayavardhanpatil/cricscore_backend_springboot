@@ -1,6 +1,5 @@
-package com.cpp.mscs.cricscore.models;
+package com.cpp.mscs.cricscore.match.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 

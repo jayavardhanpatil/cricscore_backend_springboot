@@ -1,12 +1,13 @@
-package com.cpp.mscs.cricscore.controller;
+package com.cpp.mscs.cricscore.match.controllers;
 
-import com.cpp.mscs.cricscore.models.*;
-import com.cpp.mscs.cricscore.services.CurrentPlayingPlayersService;
-import com.cpp.mscs.cricscore.services.InningsService;
-import com.cpp.mscs.cricscore.services.MatchService;
+import com.cpp.mscs.cricscore.match.models.Inning;
+import com.cpp.mscs.cricscore.match.models.Match;
+import com.cpp.mscs.cricscore.match.models.ReferencePrimaryKeyInningTable;
+import com.cpp.mscs.cricscore.match.services.CurrentPlayingPlayersService;
+import com.cpp.mscs.cricscore.match.services.InningsService;
+import com.cpp.mscs.cricscore.match.services.MatchService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class MatchController {
     }
 
     @PutMapping("match/{matchId}")
-    public ResponseEntity<?> updateMatchResult(@PathVariable Long matchId, @RequestBody Match match) throws IOException, JSONException {
+    public ResponseEntity<?> updateMatchResult(@PathVariable Long matchId, @RequestBody Match match) throws IOException, JSONException, IOException {
         matchService.updateMatch(matchId, match);
         return ResponseEntity.ok().body(match);
     }

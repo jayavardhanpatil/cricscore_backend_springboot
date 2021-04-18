@@ -27,12 +27,6 @@ public class CityController {
         return ResponseEntity.ok().body(city);
     }
 
-//    @PutMapping("cities/update/{cityId}")
-//    public ResponseEntity<?> updateCity(@RequestBody City city, @PathVariable Long cityId){
-//        cityService.addCity(city);
-//        return ResponseEntity.ok().body(city);
-//    }
-
     @GetMapping("cities")
     public ResponseEntity<?> getAllCityList(){
         List<City> cities = cityService.getALlCities();

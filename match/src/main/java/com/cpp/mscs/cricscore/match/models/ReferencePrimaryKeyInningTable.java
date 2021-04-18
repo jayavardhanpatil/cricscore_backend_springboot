@@ -1,4 +1,4 @@
-package com.cpp.mscs.cricscore.models;
+package com.cpp.mscs.cricscore.match.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -22,14 +21,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ReferencePrimaryKey implements Serializable {
+public class ReferencePrimaryKeyInningTable implements Serializable {
 
-    @Column(name = "match_id")
+    @Column(name = "matchId")
     private Long matchId;
 
-    @Column(name = "playeruuid")
-    private String playeruuid;
+    @Column(name = "inningtype")
+    private String inningtype;
 
-    public ReferencePrimaryKey(long matchId, String toUpperCase, String k) {
-    }
 }

@@ -1,5 +1,7 @@
 package com.cpp.mscs.cricscore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "city")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class City {
 
     @Id

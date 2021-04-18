@@ -1,6 +1,7 @@
 package com.cpp.mscs.cricscore.models;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Date;
 @Entity
 @Table(name = "player")
 @Component
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Player {
     @Id
     @Column(name = "uuid")
